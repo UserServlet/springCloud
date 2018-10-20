@@ -24,7 +24,7 @@ public class ConsumerController {
 
     @RequestMapping(value = "/ribbon-consumer", method = RequestMethod. GET)
     public String helloConsumer () {
-        return restTemplate.getForEntity("http://HELLO-SERVICE/hello",
+        return restTemplate.getForEntity("http://EUREKA-CLIENT/hello",
                 String.class).getBody();
     }
 }
