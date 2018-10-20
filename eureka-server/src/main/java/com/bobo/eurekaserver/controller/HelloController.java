@@ -24,9 +24,8 @@ public class HelloController {
 
     @RequestMapping(value = "/hello",method = RequestMethod.GET)
     public String index() {
-        ServiceInstance serviceInstance = discoveryClient.getLocalServiceInstance();
-        logger.info(("/hello,host:")+serviceInstance.getHost()+",service_id:"+
-                serviceInstance.getServiceId());
+        String services = "ServiceUrl: " + discoveryClient.getLocalServiceInstance().getUri();
+        System.err.println(services);
         return "hello world";
     }
 
