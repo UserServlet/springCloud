@@ -20,7 +20,7 @@ public class HelloService {
     @Qualifier(value = "restTemplate")
     private RestTemplate restTemplate;
 
-    @HystrixCommand(fallbackMethod = "helloFeedback")
+
     public String helloConsumer () throws Exception{
         String str = new HelloCommend(com.netflix.hystrix.HystrixCommand.Setter.withGroupKey(new HystrixCommandGroupKey() {
             @Override
@@ -31,7 +31,4 @@ public class HelloService {
         return str;
     }
 
-    public String helloFeedback() {
-        return "error";
-    }
 }

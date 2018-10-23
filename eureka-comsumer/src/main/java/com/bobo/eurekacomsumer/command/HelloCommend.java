@@ -20,4 +20,9 @@ public class HelloCommend extends HystrixCommand<String>{
         String forObject = restTemplate.getForObject("http://EUREKA-CLIENT/hello", String.class);
         return forObject;
     }
+
+    @Override
+    protected String getFallback() {
+        return "error";
+    }
 }
