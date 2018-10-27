@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
@@ -21,6 +22,11 @@ public class HelloService {
     private RestTemplate restTemplate;
 
 
+    /**
+     * 同步调用
+     * @return
+     * @throws Exception
+     */
     public String helloConsumer () throws Exception{
         String str = new HelloCommend(com.netflix.hystrix.HystrixCommand.Setter.withGroupKey(new HystrixCommandGroupKey() {
             @Override
@@ -30,5 +36,38 @@ public class HelloService {
         }),restTemplate).execute();
         return str;
     }
+
+    /**
+     * 异步调用
+     * @return
+     * @throws Exception
+     */
+    public String helloConsumer2() throws Exception{
+        Future<String> queue = new HelloCommend(com.netflix.hystrix.HystrixCommand.Setter.withGroupKey(new HystrixCommandGroupKey() {
+            @Override
+            public String name() {
+                return "bobo";
+            }
+        }), restTemplate).queue();
+        return queue.get();
+    }
+
+
+    /**
+     * 异步调用
+     * @return
+     * @throws Exception
+     */
+    public String helloConsume3() throws Exception{
+        Future<String> queue = new HelloCommend(com.netflix.hystrix.HystrixCommand.Setter.withGroupKey(new HystrixCommandGroupKey() {
+            @Override
+            public String name() {
+                return "bobo";
+            }
+        }), restTemplate).queue();
+        return queue.get();
+    }
+
+
 
 }

@@ -1,6 +1,9 @@
 package com.bobo.eurekacomsumer.command;
 
 import com.netflix.hystrix.HystrixCommand;
+import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
+import com.netflix.hystrix.HystrixThreadPoolKey;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -11,6 +14,11 @@ public class HelloCommend extends HystrixCommand<String>{
 
     private RestTemplate restTemplate;
 
+    public HelloCommend() {
+        super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("GroupName"))
+                .andCommandKey(HystrixCommandKey.Factory.asKey("CommandName"))
+                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("ThreadPoolKey")));
+    }
     public HelloCommend(Setter setter, RestTemplate restTemplate) {
         super(setter);
         this.restTemplate = restTemplate;
@@ -24,5 +32,10 @@ public class HelloCommend extends HystrixCommand<String>{
     @Override
     protected String getFallback() {
         return "error";
+    }
+
+    @Override
+    protected String getCacheKey() {
+        return super.getCacheKey();
     }
 }
