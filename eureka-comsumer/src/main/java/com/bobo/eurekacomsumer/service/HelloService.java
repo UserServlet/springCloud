@@ -1,6 +1,7 @@
 package com.bobo.eurekacomsumer.service;
 import com.bobo.eurekacomsumer.command.HelloCommend;
 import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,12 +29,9 @@ public class HelloService {
      * @throws Exception
      */
     public String helloConsumer () throws Exception{
-        String str = new HelloCommend(com.netflix.hystrix.HystrixCommand.Setter.withGroupKey(new HystrixCommandGroupKey() {
-            @Override
-            public String name() {
-                return "bobo";
-            }
-        }),restTemplate).execute();
+        com.netflix.hystrix.HystrixCommand.Setter setter = com.netflix.hystrix.HystrixCommand.Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("bobo"))
+                .andCommandKey(HystrixCommandKey.Factory.asKey("group1"));
+        String str = new HelloCommend(setter,restTemplate).execute();
         return str;
     }
 
