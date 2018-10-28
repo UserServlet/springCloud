@@ -1,6 +1,7 @@
 package com.bobo.service;
 
 import com.bobo.configuration.DisableHystrixConfiguration;
+import com.bobo.fallback.RefactorHelloServiceFallback;
 import org.springframework.cloud.netflix.feign.FeignClient;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
  **/
 
 
-@FeignClient(value = "eureka-client",configuration = {DisableHystrixConfiguration.class})
+@FeignClient(value = "eureka-client",configuration = {DisableHystrixConfiguration.class},
+            fallback = RefactorHelloServiceFallback.class)
 public interface RefactorHelloService extends com.bobo.service.api.HelloService {
 }
