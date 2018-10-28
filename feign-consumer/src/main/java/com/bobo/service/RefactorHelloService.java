@@ -10,7 +10,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
  **/
 
 
-@FeignClient(value = "eureka-client",configuration = {DisableHystrixConfiguration.class},
+@FeignClient(value = "eureka-client",
             fallback = RefactorHelloServiceFallback.class)
 public interface RefactorHelloService extends com.bobo.service.api.HelloService {
 }
